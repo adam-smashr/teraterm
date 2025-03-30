@@ -30,8 +30,6 @@
 
 #pragma once
 
-#include "xmodem.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif

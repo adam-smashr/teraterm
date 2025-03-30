@@ -37,6 +37,8 @@
 #include "filesys_proto.h"
 
 #include "ymodem.h"
+//#include "xmodem.h"
+#define XoptCheck Yopt1K		// XoptCheck == 1 == Yopt1K
 
 /* YMODEM */
 typedef struct {
@@ -190,7 +192,7 @@ static void YSendNAK(PFileVarProto fv, PYVar yv, PComVar cv)
 	{
 		if (yv->NAKMode==YnakC)
 		{
-			YSetOpt(fv,yv,XoptCheck);
+			YSetOpt(fv,yv,XoptCheck);		// XoptCheck == 1 == Yopt1K
 			yv->NAKMode = YnakC;
 			yv->NAKCount = 9;
 		}
@@ -231,7 +233,7 @@ static void YSendNAKTimeout(PFileVarProto fv, PYVar yv, PComVar cv)
 	{
 		if (yv->NAKMode==YnakC)
 		{
-			YSetOpt(fv,yv,XoptCheck);
+			YSetOpt(fv,yv,XoptCheck);		// XoptCheck == 1 == Yopt1K
 			yv->NAKMode = YnakC;
 			yv->NAKCount = 9;
 		}
