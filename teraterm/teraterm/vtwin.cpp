@@ -4931,6 +4931,43 @@ void CVTWindow::OnHelpAbout()
 	(*AboutDialog)(HVTWin);
 }
 
+
+/**
+ *	モニタ(ディスプレイ)の解像度を返す
+ *
+ *	@param	hmonitor
+ *	@param	dpi
+ *	@retval	S_OK
+ */
+HRESULT GetMonitorDpi(HMONITOR hMonitor, UINT *dpi)
+{
+	static BOOL old_method = TRUE;
+	if (old_method) {
+		*dpi = 0;
+		UINT dpiX;
+		UINT dpiY;
+		HRESULT r = pGetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &dpiX, &dpiY);
+		if (r == S_OK) {
+			*dpi = dpiX;
+		}
+		return r;
+	} else {
+		*dpi = 0;
+		MONITORINFOEXW monitorInfo = {};
+		monitorInfo.cbSize = sizeof(monitorInfo);
+		if (!GetMonitorInfoW(hMonitor, &monitorInfo)) {
+			return E_FAIL;
+		}
+		HDC hdc = CreateDCW(NULL, monitorInfo.szDevice, NULL, NULL);
+		if (!hdc) {
+			return E_FAIL;
+		}
+		*dpi = (UINT)GetDeviceCaps(hdc, LOGPIXELSX);
+		DeleteDC(hdc);
+		return S_OK;
+	}
+}
+
 LRESULT CVTWindow::OnDpiChanged(WPARAM wp, LPARAM lp)
 {
 	const UINT NewDPI = LOWORD(wp);
@@ -5022,19 +5059,12 @@ LRESULT CVTWindow::OnDpiChanged(WPARAM wp, LPARAM lp)
 	for (size_t i = 0; i < _countof(NewWindowRect); i++) {
 		const RECT *r = &NewWindowRect[i];
 		HMONITOR hMonitor = pMonitorFromRect(r, MONITOR_DEFAULTTONULL);
-		MONITORINFOEXW monitorInfo;
-		RtlZeroMemory(&monitorInfo, sizeof(monitorInfo));
-		monitorInfo.cbSize = sizeof(monitorInfo);
-		if (GetMonitorInfoW(hMonitor, &monitorInfo)) {
-			HDC hdc = CreateDCW(NULL, monitorInfo.szDevice, NULL, NULL);
-			if (hdc) {
-				UINT dpiX = (UINT)GetDeviceCaps(hdc, LOGPIXELSX);
-				DeleteDC(hdc);
-				if (NewDPI == dpiX) {
-					NewRect = r;
-					break;
-				}
-			}
+
+		UINT dpi = 0;
+		GetMonitorDpi(hMonitor, &dpi);
+		if (NewDPI == dpi) {
+			NewRect = r;
+			break;
 		}
 	}
 
