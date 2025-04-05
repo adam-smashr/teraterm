@@ -4939,9 +4939,8 @@ void CVTWindow::OnHelpAbout()
  *	@param	dpi
  *	@retval	S_OK
  */
-HRESULT GetMonitorDpi(HMONITOR hMonitor, UINT *dpi)
+HRESULT GetMonitorDpi(HMONITOR hMonitor, UINT *dpi, BOOL old_method = TRUE)
 {
-	static BOOL old_method = TRUE;
 	if (old_method) {
 		*dpi = 0;
 		UINT dpiX;
@@ -4972,6 +4971,11 @@ LRESULT CVTWindow::OnDpiChanged(WPARAM wp, LPARAM lp)
 {
 	const UINT NewDPI = LOWORD(wp);
 	const RECT SuggestedWindowRect = *(RECT *)lp;
+
+	OutputDebugPrintf("%s() line %d, HIWORD(wParam)=Y=%d, LOWORD(wParam)=X=%d\n", __func__, __LINE__,
+	                  HIWORD(wp), LOWORD(wp));
+	OutputDebugPrintf("%s() line %d, lParam left=%d, top=%d, right=%d, bottom=%d\n", __func__, __LINE__,
+	                  SuggestedWindowRect.left, SuggestedWindowRect.top, SuggestedWindowRect.right, SuggestedWindowRect.bottom);
 
 	// 新しいDPIに合わせてフォントを生成、
 	// クライアント領域のサイズを決定する
@@ -5012,6 +5016,9 @@ LRESULT CVTWindow::OnDpiChanged(WPARAM wp, LPARAM lp)
 		}
 		NewWindowWidth = Rect.right - Rect.left;
 		NewWindowHeight = Rect.bottom - Rect.top;
+
+		OutputDebugPrintf("%s() line %d, NewWindowWidth=%d, NewWindowHeight=%d\n", __func__, __LINE__,
+		                  NewWindowWidth, NewWindowHeight);
 	}
 	else {
 		// WM_DPICHANGEDが発生しない環境のはず、念の為実装
@@ -5054,19 +5061,47 @@ LRESULT CVTWindow::OnDpiChanged(WPARAM wp, LPARAM lp)
 	NewWindowRect[3].left = SuggestedWindowRect.left;
 	NewWindowRect[3].right = SuggestedWindowRect.left + NewWindowWidth;
 
+	OutputDebugPrintf("%s() line %d, NewWindowRect[0] left=%d, top=%d, right=%d, bottom=%d\n", __func__, __LINE__,
+	                  NewWindowRect[0].left, NewWindowRect[0].top, NewWindowRect[0].right, NewWindowRect[0].bottom);
+	OutputDebugPrintf("%s() line %d, NewWindowRect[1] left=%d, top=%d, right=%d, bottom=%d\n", __func__, __LINE__,
+	                  NewWindowRect[1].left, NewWindowRect[1].top, NewWindowRect[1].right, NewWindowRect[1].bottom);
+	OutputDebugPrintf("%s() line %d, NewWindowRect[2] left=%d, top=%d, right=%d, bottom=%d\n", __func__, __LINE__,
+	                  NewWindowRect[2].left, NewWindowRect[2].top, NewWindowRect[2].right, NewWindowRect[2].bottom);
+	OutputDebugPrintf("%s() line %d, NewWindowRect[3] left=%d, top=%d, right=%d, bottom=%d\n", __func__, __LINE__,
+	                  NewWindowRect[3].left, NewWindowRect[3].top, NewWindowRect[3].right, NewWindowRect[3].bottom);
+
 	// 確認
 	const RECT *NewRect = &NewWindowRect[0];
 	for (size_t i = 0; i < _countof(NewWindowRect); i++) {
 		const RECT *r = &NewWindowRect[i];
 		HMONITOR hMonitor = pMonitorFromRect(r, MONITOR_DEFAULTTONULL);
 
+		OutputDebugPrintf("%s() line %d, i=%d, hMonitor=%x\n", __func__, __LINE__,
+		                  i, hMonitor);
+
+		{
+			UINT dpi = 0;
+			GetMonitorDpi(hMonitor, &dpi, TRUE);
+			OutputDebugPrintf("%s() line %d, i=%d, old_method=TRUE dpi=%d\n", __func__, __LINE__,
+			                  i, dpi);
+			GetMonitorDpi(hMonitor, &dpi, FALSE);
+			OutputDebugPrintf("%s() line %d, i=%d, old_method=FALSE dpi=%d\n", __func__, __LINE__,
+			                  i, dpi);
+		}
+
 		UINT dpi = 0;
 		GetMonitorDpi(hMonitor, &dpi);
 		if (NewDPI == dpi) {
 			NewRect = r;
+			OutputDebugPrintf("%s() line %d, old_method is used, chosen i=%d%d\n", __func__, __LINE__,
+			                  i);
 			break;
 		}
 	}
+
+	OutputDebugPrintf("%s() line %d, NewRect left=%d, top=%d, right=%d, bottom=%d\n", __func__, __LINE__,
+	                  NewRect->left, NewRect->top, NewRect->right, NewRect->bottom);
+
 
 	::SetWindowPos(m_hWnd, NULL,
 				   NewRect->left, NewRect->top,
