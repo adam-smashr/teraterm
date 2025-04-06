@@ -5093,7 +5093,7 @@ LRESULT CVTWindow::OnDpiChanged(WPARAM wp, LPARAM lp)
 		GetMonitorDpi(hMonitor, &dpi);
 		if (NewDPI == dpi) {
 			NewRect = r;
-			OutputDebugPrintf("%s() line %d, old_method is used, chosen i=%d%d\n", __func__, __LINE__,
+			OutputDebugPrintf("%s() line %d, old_method is used, chosen i=%d\n", __func__, __LINE__,
 			                  i);
 			break;
 		}
