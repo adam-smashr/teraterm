@@ -4963,6 +4963,17 @@ HRESULT GetMonitorDpi(HMONITOR hMonitor, UINT *dpi, BOOL old_method = TRUE)
 		}
 		*dpi = (UINT)GetDeviceCaps(hdc, LOGPIXELSX);
 		DeleteDC(hdc);
+		OutputDebugPrintf("(UINT)GetDeviceCaps(hdc, LOGPIXELSX) = %d\n", *dpi);
+
+		{
+			DEVMODEW devMode = {};
+			devMode.dmSize = sizeof(devMode);
+			if (EnumDisplaySettingsExW(monitorInfo.szDevice, ENUM_CURRENT_SETTINGS, &devMode, EDS_RAWMODE) != 0)
+			{
+				OutputDebugPrintf("devMode.dmLogPixels = %d\n", devMode.dmLogPixels);
+			}
+		}
+
 		return S_OK;
 	}
 }
