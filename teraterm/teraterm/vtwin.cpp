@@ -4987,6 +4987,11 @@ LRESULT CVTWindow::OnDpiChanged(WPARAM wp, LPARAM lp)
 	                  HIWORD(wp), LOWORD(wp));
 	OutputDebugPrintf("%s() line %d, lParam left=%d, top=%d, right=%d, bottom=%d\n", __func__, __LINE__,
 	                  SuggestedWindowRect.left, SuggestedWindowRect.top, SuggestedWindowRect.right, SuggestedWindowRect.bottom);
+	{
+		UINT dpi = GetDpiForWindow(HVTWin);
+		OutputDebugPrintf("%s() line %d, dpi from GetDpiForWindow()=%d\n", __func__, __LINE__,
+		                  dpi);
+	}
 
 	// 新しいDPIに合わせてフォントを生成、
 	// クライアント領域のサイズを決定する
