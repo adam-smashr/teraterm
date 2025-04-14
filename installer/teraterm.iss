@@ -202,22 +202,22 @@ Root: HKLM; Subkey: Software\Tera Term\Capabilities\UrlAssociations; ValueType: 
 ;   これがないと プロトコル/リンクの種類 の関連付け画面に プロトコル が出てこない。
 ;   HKCR に登録してもプロトコルは出てこない。
 ;   telnet は Windows に元々あるので追加しなくてよい。
-Root: HKLM; Subkey: Software\Classes\ssh; ValueType: string; ValueData: "URL: SSH Protocol"; Flags: uninsdeletekey; Components: TTSSH; Tasks: telnetassoc
-Root: HKLM; Subkey: Software\Classes\ssh; ValueName: URL Protocol; ValueType: string; Flags: uninsdeletekey; Components: TTSSH; Tasks: telnetassoc
-Root: HKLM; Subkey: Software\Classes\ssh; ValueName: EditFlags; ValueType: dword; ValueData: 2; Flags: uninsdeletekey; Components: TTSSH; Tasks: sshassoc
-Root: HKLM; Subkey: Software\Classes\ssh\DefaultIcon; ValueType: string; ValueData: """{app}\ttxssh.dll"",0"; Flags: uninsdeletekey; Components: TTSSH; Tasks: sshassoc
-Root: HKLM; Subkey: Software\Classes\ssh\shell\open\command; ValueType: string; ValueData: """{app}\ttermpro.exe"" /ssh %1"; Flags: uninsdeletekey; Components: TTSSH; Tasks: sshassoc
-Root: HKLM; Subkey: Software\Classes\slogin; ValueType: string; ValueData: "URL: slogin Protocol"; Flags: uninsdeletekey; Components: TTSSH; Tasks: telnetassoc
-Root: HKLM; Subkey: Software\Classes\slogin; ValueName: URL Protocol; ValueType: string; Flags: uninsdeletekey; Components: TTSSH; Tasks: telnetassoc
-Root: HKLM; Subkey: Software\Classes\slogin; ValueName: EditFlags; ValueType: dword; ValueData: 2; Flags: uninsdeletekey; Components: TTSSH; Tasks: sshassoc
-Root: HKLM; Subkey: Software\Classes\slogin\DefaultIcon; ValueType: string; ValueData: """{app}\ttxssh.dll"",0"; Flags: uninsdeletekey; Components: TTSSH; Tasks: sshassoc
-Root: HKLM; Subkey: Software\Classes\slogin\shell\open\command; ValueType: string; ValueData: """{app}\ttermpro.exe"" /ssh %1"; Flags: uninsdeletekey; Components: TTSSH; Tasks: sshassoc
+;Root: HKLM; Subkey: Software\Classes\ssh; ValueType: string; ValueData: "URL: SSH Protocol"; Flags: uninsdeletekey; Components: TTSSH; Tasks: telnetassoc
+;Root: HKLM; Subkey: Software\Classes\ssh; ValueName: URL Protocol; ValueType: string; Flags: uninsdeletekey; Components: TTSSH; Tasks: telnetassoc
+;Root: HKLM; Subkey: Software\Classes\ssh; ValueName: EditFlags; ValueType: dword; ValueData: 2; Flags: uninsdeletekey; Components: TTSSH; Tasks: sshassoc
+;Root: HKLM; Subkey: Software\Classes\ssh\DefaultIcon; ValueType: string; ValueData: """{app}\ttxssh.dll"",0"; Flags: uninsdeletekey; Components: TTSSH; Tasks: sshassoc
+;Root: HKLM; Subkey: Software\Classes\ssh\shell\open\command; ValueType: string; ValueData: """{app}\ttermpro.exe"" /ssh %1"; Flags: uninsdeletekey; Components: TTSSH; Tasks: sshassoc
+;Root: HKLM; Subkey: Software\Classes\slogin; ValueType: string; ValueData: "URL: slogin Protocol"; Flags: uninsdeletekey; Components: TTSSH; Tasks: telnetassoc
+;Root: HKLM; Subkey: Software\Classes\slogin; ValueName: URL Protocol; ValueType: string; Flags: uninsdeletekey; Components: TTSSH; Tasks: telnetassoc
+;Root: HKLM; Subkey: Software\Classes\slogin; ValueName: EditFlags; ValueType: dword; ValueData: 2; Flags: uninsdeletekey; Components: TTSSH; Tasks: sshassoc
+;Root: HKLM; Subkey: Software\Classes\slogin\DefaultIcon; ValueType: string; ValueData: """{app}\ttxssh.dll"",0"; Flags: uninsdeletekey; Components: TTSSH; Tasks: sshassoc
+;Root: HKLM; Subkey: Software\Classes\slogin\shell\open\command; ValueType: string; ValueData: """{app}\ttermpro.exe"" /ssh %1"; Flags: uninsdeletekey; Components: TTSSH; Tasks: sshassoc
 ;   拡張子 と プログラム の関連付け
 ;   この拡張子がほかのプログラムとバッティングすることはないと思われる。
 ;   そのため RegisteredApplications への登録はしない。
 ;   Inno Setup のサンプルでも Classes\.ext に直接書き込んでいる（Examples\Example3.iss）
-Root: HKLM; Subkey: Software\Classes\.ttl\OpenWithProgids; ValueType: string; ValueName: "TeraTerm.MacroFile"; Flags: uninsdeletevalue; Components: TeraTerm; Tasks: macroassoc
-Root: HKLM; Subkey: Software\Classes\.tty\OpenWithProgids; ValueType: string; ValueName: "TeraTerm.TTYRecordFile"; Flags: uninsdeletevalue; Components: Additional_Plugins/TTXttyrec; Tasks: ttyplayassoc
+;Root: HKLM; Subkey: Software\Classes\.ttl\OpenWithProgids; ValueType: string; ValueName: "TeraTerm.MacroFile"; Flags: uninsdeletevalue; Components: TeraTerm; Tasks: macroassoc
+;Root: HKLM; Subkey: Software\Classes\.tty\OpenWithProgids; ValueType: string; ValueName: "TeraTerm.TTYRecordFile"; Flags: uninsdeletevalue; Components: Additional_Plugins/TTXttyrec; Tasks: ttyplayassoc
 
 ; Cygterm Here
 Root: HKCU; Subkey: Software\Classes\Folder\shell\cygterm; ValueType: string; ValueData: Cy&gterm Here; Flags: uninsdeletekey; Components: cygterm; Tasks: cygtermhere
