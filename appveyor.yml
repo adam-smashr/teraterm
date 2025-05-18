@@ -4,6 +4,19 @@ environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
   VS_VERSION: 2022
   NOPAUSE: 1
+  # SignPath
+  ORGANIZATION_ID: 78e41f48-55fc-4f33-8ea5-08ac32f65ac8
+  PROJECT_SLUG: teraterm
+  SIGNING_POLICY_SLUG: test-signing
+  ARTIFACT_CONFIGURATION_SLUG: teraterm-%TT_VERSION%
+
+for:
+  -
+    branches:
+      only:
+        - main
+    environment:
+      SIGNPATH_SIGNING_POLICY_SLUG: release-signing
 
 build: off
 
@@ -34,17 +47,18 @@ build_script:
 after_build:
   # ソース管理しているファイルがキャッシュされて更新されなくなるのを防ぐため削除
   - ci_scripts/build_appveyor_release_bat_pre_cache.bat
+  # 署名用スクリプトをコピーする
+  - ps: (Get-Content ci_scripts/create_installer.ps1) -replace 'TT_VERSION', "%TT_VERSION" | Set-Content installer/Output/create_installer.ps1
 
 artifacts:
-  - path: installer/Output/*.exe
   - path: installer/Output/*.zip
-  - path: installer/Output/*.sha256sum
-  - path: installer/Output/*.sha512sum
+  - path: installer/teraterm.iss
+  - path: installer/Output/create_installer.ps1
 
-# SignPath
+# SignPath Trusted Build System
 deploy:
 - provider: Webhook
-  url: https://app.signpath.io/API/v1/78e41f48-55fc-4f33-8ea5-08ac32f65ac8/Integrations/AppVeyor?ProjectSlug=teraterm&SigningPolicySlug=test-signing&ArtifactConfigurationSlug=teraterm-5.4.0
+  url: https://app.signpath.io/API/v1/%ORGANIZATION_ID%/Integrations/AppVeyor?ProjectSlug=%PROJECT_SLUG%&SigningPolicySlug=SIGNING_POLICY_SLUG&ArtifactConfigurationSlug=%ARTIFACT_CONFIGURATION_SLUG%
   authorization:
     secure: iS8DOdESKomXlP8LpnfThhapFMdeJJ0M0Rw+h2XwcFLGAUfHz52tHaTAVmH4yE+nePb6n5YxmvqpI39O+acZMw==
 
