@@ -42,7 +42,7 @@ before_build:
   # インストール済みの MSYS2 にパッケージを追加
   # - ci_scripts/addpkg_msys2.bat
   # 自前の Cygwin をインストール
-  # - buldtools/install_cygwin.bat
+  # - buildtools/install_cygwin.bat
   # 自前の Inno Setup をインストール
   - buildtools/install_innosetup.bat
 
