@@ -3,7 +3,7 @@ image: Visual Studio 2022
 # - SignPath の　Trusted Build System を使うために /appveyor.yml に配置している
 #   https://about.signpath.io/documentation/trusted-build-systems/appveyor
 # - AppVeyor の Settings > Environment で TT_VERSION の設定が必要
-#   buildtools\svnrev\sourcetree_info.bat の自動生成とは別に必要
+#   buildtools\svnrev\sourcetree_info.bat で自動生成したものを読み込めないので別に設定が必要
 
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
