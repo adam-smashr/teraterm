@@ -31,13 +31,15 @@ init:
   # 実行している yml を表示
   - echo appveyor.yml
   # タグからのビルドでない場合は終了する
-  - ps: |
-      if (-not $env:APPVEYOR_REPO_TAG -or $env:APPVEYOR_REPO_TAG -ne "true") {
-        Write-Host "Build stopped: this is not a tag build."
-        exit 0
-      }
+#  - ps: |
+#      if (-not $env:APPVEYOR_REPO_TAG -or $env:APPVEYOR_REPO_TAG -ne "true") {
+#        Write-Host "Build stopped: this is not a tag build."
+#        exit 0
+#      }
   # タイムゾーンを JST に変更
   - tzutil /s "Tokyo Standard Time"
+  - git config --global i18n.logOutputEncoding utf-8
+  - git config --global i18n.commitEncoding utf-8
 
 # リリースではキャッシュを使わない
 # cache:
