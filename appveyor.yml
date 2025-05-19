@@ -7,7 +7,8 @@ image: Visual Studio 2022
 #   buildtools\svnrev\sourcetree_info.bat で自動生成したものを読み込めないので別に設定が必要
 
 environment:
-  APPVEYOR_SAVE_CACHE_ON_ERROR: true
+# リリースではキャッシュを使わない
+# APPVEYOR_SAVE_CACHE_ON_ERROR: true
   VS_VERSION: 2022
   NOPAUSE: 1
   # SignPath
@@ -38,8 +39,9 @@ init:
   # タイムゾーンを JST に変更
   - tzutil /s "Tokyo Standard Time"
 
-cache:
-  - libs
+# リリースではキャッシュを使わない
+# cache:
+#   - libs
 
 before_build:
   # インストール済みの Cygwin を更新
