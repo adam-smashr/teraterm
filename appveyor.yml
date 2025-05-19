@@ -1,8 +1,9 @@
 image: Visual Studio 2022
 
-# - SignPath の　Trusted Build System を使うために /appveyor.yml に配置している
+# - SignPath の Trusted Build System を使うために /appveyor.yml に配置している
 #   https://about.signpath.io/documentation/trusted-build-systems/appveyor
-# - AppVeyor の Settings > Environment で TT_VERSION の設定が必要
+
+# - AppVeyor のプロジェクトの Settings - Environment に TT_VERSION の設定が必要
 #   buildtools\svnrev\sourcetree_info.bat で自動生成したものを読み込めないので別に設定が必要
 
 environment:
@@ -74,10 +75,10 @@ deploy:
     secure: iS8DOdESKomXlP8LpnfThhapFMdeJJ0M0Rw+h2XwcFLGAUfHz52tHaTAVmH4yE+nePb6n5YxmvqpI39O+acZMw==
 
 # AppVeyor のプロジェクトの Settings - Environment に WEBHOOK_URL を設定するかどうかで制御する
-on_success:
-  - ci_scripts\notify.bat success
-on_failure:
-  - ci_scripts\notify.bat failure
+# on_success:
+#   - ci_scripts\notify.bat success
+# on_failure:
+#   - ci_scripts\notify.bat failure
 
 on_finish:
 # ビルド完了後に RDP が有効になる。blockRdp を指定しているので、完了後にも終了しない。
