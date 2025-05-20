@@ -1,6 +1,6 @@
-branches: 
-  only:
-    - nonexistentbranch
+# branches: 
+#   only:
+#     - nonexistentbranch
 
 skip_non_tags: true
 
