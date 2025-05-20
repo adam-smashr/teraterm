@@ -4,6 +4,7 @@ branches:
 
 skip_non_tags: true
 
+
 image: Visual Studio 2022
 
 # - SignPath の Trusted Build System を使うために /appveyor.yml に配置している
