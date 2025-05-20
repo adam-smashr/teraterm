@@ -1,4 +1,8 @@
-skip_non_tags: true
+branches: 
+  only:
+    - nonexistentbranch
+
+skip_tags: true
 
 image: Visual Studio 2022
 
