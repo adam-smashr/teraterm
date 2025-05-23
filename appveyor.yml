@@ -74,8 +74,7 @@ artifacts:
 deploy:
 - provider: Webhook
   url: https://app.signpath.io/API/v1/%ORGANIZATION_ID%/Integrations/AppVeyor?ProjectSlug=%PROJECT_SLUG%&SigningPolicySlug=%SIGNING_POLICY_SLUG%&ArtifactConfigurationSlug=%ARTIFACT_CONFIGURATION_SLUG%
-  authorization:
-    secure: iS8DOdESKomXlP8LpnfThhapFMdeJJ0M0Rw+h2XwcFLGAUfHz52tHaTAVmH4yE+nePb6n5YxmvqpI39O+acZMw==
+  authorization: 'Bearer %SIGNPATH_CI_USER_TOKEN%'
 
 # AppVeyor のプロジェクトの Settings - Environment に WEBHOOK_URL を設定するかどうかで制御する
 # on_success:
