@@ -117,12 +117,12 @@ if ERRORLEVEL 1 (
 	echo ERROR call makearchive.bat
 	exit /b 1
 )
-call iscc.bat
-
-if ERRORLEVEL 1 (
-	echo ERROR call iscc.bat
-	exit /b 1
-)
+rem call iscc.bat
+rem 
+rem if ERRORLEVEL 1 (
+rem 	echo ERROR call iscc.bat
+rem 	exit /b 1
+rem )
 endlocal
 exit /b 0
 
