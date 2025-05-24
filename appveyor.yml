@@ -30,12 +30,22 @@ build: off
 
 
 # 存在しないブランチを指定して、push 時の自動ビルドを止める
-branches:
-  only:
-    - nonexistentbranch
+# - push による自動ビルド: 動作しない...OK
+#   - skipped as branch "test/signpath-appveyor" does not match any configuration
+# - 手動ビルド: appveyor.yml が使われていないように見える...NG
+#   - init の tzutil が実行されない
+#   - UI でどのビルドモードを指定してもビルドされない
+#     - Settings > Build を MSBuild にすると、/ の sln ファイルを探して異常終了する。ビルドされない
+#     - Settings > Build を Script にすると、UI にスクリプト名を書いたものが実行される。"Visual Studio not found" と表示される。ビルドされない
+#     - Settings > Build を Off にすると、git clone して正常終了する。ビルドされない
+#branches:
+#  only:
+#    - nonexistentbranch
 
 # push による自動ビルドをタグ push 時のみに制限する
-# skip_non_tags: true
+# - push による自動ビルド: 
+# - 手動ビルド:
+skip_non_tags: true
 
 
 image: Visual Studio 2022
