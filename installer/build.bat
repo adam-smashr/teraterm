@@ -120,9 +120,9 @@ rem popd
 :msys2term_pass
 
 rem cygterm+.tar.gz
-pushd ..\cygwin\cygterm
-make archive
-popd
+rem pushd ..\cygwin\cygterm
+rem make archive
+rem popd
 
 rem lng ƒtƒ@ƒCƒ‹‚ğì¬
 call makelang.bat
