@@ -43,8 +43,10 @@ build: off
 #    - nonexistentbranch
 
 # push による自動ビルドをタグ push 時のみに制限する
-# - push による自動ビルド: 
-# - 手動ビルド:
+# - push による自動ビルド: 動作しない...OK
+#   - skipped as "Build tags only" (UI) or "skip_non_tags: true"
+# - 手動ビルド: appveyor.yml が使われている...OK
+#   - Settings > Build が MSBuild でも Script でも Off でも、init の tzutil が実行されている
 skip_non_tags: true
 
 
@@ -90,7 +92,8 @@ deploy:
   # SignPath Trusted Build System
   - provider: Webhook
     url: https://app.signpath.io/API/v1/%ORGANIZATION_ID%/Integrations/AppVeyor?ProjectSlug=%PROJECT_SLUG%&SigningPolicySlug=%SIGNING_POLICY_SLUG%&ArtifactConfigurationSlug=%ARTIFACT_CONFIGURATION_SLUG%
-    authorization: 'Bearer %SIGNPATH_CI_USER_TOKEN%'
+    authorization:
+      secure: Wg6JguYb8Otrb2T9RYI7jDokclVJ7VScS4aqUsCF+sx5KCzYtBR3O6QqhJkgtDeVy+aA5yhsDbOOkV5Z/gIIDw==
 
 # AppVeyor のプロジェクトの Settings - Environment に WEBHOOK_URL を設定するかどうかで制御する
 # on_success:
