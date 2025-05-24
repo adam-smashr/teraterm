@@ -1,21 +1,12 @@
-# branches: 
-#   only:
-#     - nonexistentbranch
+# SignPath の Trusted Build System を使うために /appveyor.yml に配置している
+# https://about.signpath.io/documentation/trusted-build-systems/appveyor
 
-skip_non_tags: true
-
-
-image: Visual Studio 2022
-
-# - SignPath の Trusted Build System を使うために /appveyor.yml に配置している
-#   https://about.signpath.io/documentation/trusted-build-systems/appveyor
-
-# - AppVeyor のプロジェクトの Settings - Environment に TT_VERSION の設定が必要
-#   buildtools\svnrev\sourcetree_info.bat で自動生成したものを読み込めないので別に設定が必要
+# AppVeyor のプロジェクトの Settings > Environment に TT_VERSION の設定が必要
+# ソースのビルドでは buildtools\svnrev\sourcetree_info.bat で自動生成したものを使うが、
+# appveyor.yml ではそれを読み込めないので別に設定が必要
 
 environment:
-# リリースではキャッシュを使わない
-# APPVEYOR_SAVE_CACHE_ON_ERROR: true
+  APPVEYOR_SAVE_CACHE_ON_ERROR: true
   VS_VERSION: 2022
   NOPAUSE: 1
   # SignPath
@@ -24,6 +15,7 @@ environment:
   SIGNING_POLICY_SLUG: test-signing
   ARTIFACT_CONFIGURATION_SLUG: teraterm-%TT_VERSION%
 
+# main ブランチのときのみ、署名ポリシーを本番のものに変更する
 for:
   -
     branches:
@@ -32,7 +24,22 @@ for:
     environment:
       SIGNPATH_SIGNING_POLICY_SLUG: release-signing
 
+
+# Build mode
 build: off
+
+
+# 存在しないブランチを指定して、push 時の自動ビルドを止める
+branches:
+  only:
+    - nonexistentbranch
+
+# push による自動ビルドをタグ push 時のみに制限する
+# skip_non_tags: true
+
+
+image: Visual Studio 2022
+
 
 init:
   # 実行している yml を表示
@@ -40,9 +47,8 @@ init:
   # タイムゾーンを JST に変更
   - tzutil /s "Tokyo Standard Time"
 
-# リリースではキャッシュを使わない
-# cache:
-#   - libs
+cache:
+  - libs
 
 before_build:
   # インストール済みの Cygwin を更新
@@ -70,11 +76,11 @@ artifacts:
   - path: installer/teraterm.iss
   - path: installer/Output/create_installer.ps1
 
-# SignPath Trusted Build System
 deploy:
-- provider: Webhook
-  url: https://app.signpath.io/API/v1/%ORGANIZATION_ID%/Integrations/AppVeyor?ProjectSlug=%PROJECT_SLUG%&SigningPolicySlug=%SIGNING_POLICY_SLUG%&ArtifactConfigurationSlug=%ARTIFACT_CONFIGURATION_SLUG%
-  authorization: 'Bearer %SIGNPATH_CI_USER_TOKEN%'
+  # SignPath Trusted Build System
+  - provider: Webhook
+    url: https://app.signpath.io/API/v1/%ORGANIZATION_ID%/Integrations/AppVeyor?ProjectSlug=%PROJECT_SLUG%&SigningPolicySlug=%SIGNING_POLICY_SLUG%&ArtifactConfigurationSlug=%ARTIFACT_CONFIGURATION_SLUG%
+    authorization: 'Bearer %SIGNPATH_CI_USER_TOKEN%'
 
 # AppVeyor のプロジェクトの Settings - Environment に WEBHOOK_URL を設定するかどうかで制御する
 # on_success:
