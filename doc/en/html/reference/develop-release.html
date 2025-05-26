@@ -199,6 +199,41 @@ To release Tera Term installation package is shown in the following step:
       Check that build and installer generation without error.
     </p>
   </li>
+  <li>Change SignPath configurations.
+    <ul>
+      <li>
+        Add Artifact Configuration.
+        <ul>
+          <li>Name: teraterm-(version) (e.g. "teraterm-5.4.0")</li>
+          <li>Slug: teraterm-(version) (e.g. "teraterm-5.4.0")</li>
+          <li>Artifact configuration: an example from 5.4.0
+<pre>
+&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;artifact-configuration xmlns="http://signpath.io/artifact-configuration/v1"&gt;
+  &lt;zip-file&gt;
+    &lt;pe-file-set&gt;
+      &lt;include path="teraterm-5.4.0\ttermpro.exe" /&gt;
+      &lt;include path="teraterm-5.4.0\keycode.exe" /&gt;
+      &lt;include path="teraterm-5.4.0\ttpmacro.exe" /&gt;
+      &lt;for-each&gt;
+        &lt;authenticode-sign /&gt;
+      &lt;/for-each&gt;
+    &lt;/pe-file-set&gt;
+  &lt;/zip-file&gt;
+&lt;/artifact-configuration&gt;
+</pre>
+          </li>
+        </ul>
+      </li>
+      <li>
+        Re-register AppVeyor in Trusted build systems.
+        <ul>
+          <li>AppVeyor API key: AppVeyor Bearer token (cf. project management information)</li>
+          <li>Artifact path: the path of portable zip file of AppVeyor (e.g. "installer\Output\teraterm-5.4.0")</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
   <li>Commit.</li>
   <li>Create a tag and push.
     <p>
@@ -209,9 +244,18 @@ To release Tera Term installation package is shown in the following step:
 git tag -a v5.4.0 -m "Release 5.4.0"
 git push origin v5.4.0
 </pre>
+    <p>
+      When a tag is pushed to GitHub, a build of the "github-release" project on AppVeyor is triggerd.<br>
+      While an AppVeyor build is running, a portable zip file is signed by SignPath. This type of signing is called a Trusted Build System.
+    </p>
   </li>
   <li>Create installer.
-    <p>use "github-release" project on AppVeyor.</p>
+    <ul>
+      <li>Download artifacts from the AppVeyor "github-release" project, excluding the portable ZIP file.</li>
+      <li>Download the portable ZIP file contains signed executable files from the SignPath "Signing Requests" page.</li>
+      <li>Replace the $API_TOKEN value in create_installer.ps1 with your own SignPath API Token.</li>
+      <li>Run create_installer.ps1 to create a signed installer. This type of signing is called manual signing.</li>
+    </ul>
   </li>
   <li>Add to GitHub "Releases."
     <ul>
@@ -347,6 +391,18 @@ git checkout -b stable_5_4
             Add template of changelog for next release.
 <pre>
 &lt;h3 id="teraterm_5.4.1"&gt;YYYY.MM.DD (Ver 5.4.1 not released yet)&lt;/h3&gt;
+</pre>
+          </li>
+          <li>
+            appveyor.yml<br>
+            Change the branch that uses the special SignPath signing policy.
+<pre>
+      branches:
+        only:
+-         - main
++         - stable_5_4
+      environment:
+        SIGNPATH_SIGNING_POLICY_SLUG: release-signing
 </pre>
           </li>
           <li>Commit and push.</li>

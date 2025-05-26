@@ -202,6 +202,41 @@ TeraTerm Project でのリリース手順について以下に示します。
       ビルド・インストーラの生成がエラーなくできることを確認する。
     </p>
   </li>
+  <li>SignPath の設定を変更する
+    <ul>
+      <li>
+        Artifact Configuration を追加する。
+        <ul>
+          <li>Name: 「teraterm-(バージョン)」（例: 5.4.0ならば "teraterm-5.4.0"）</li>
+          <li>Slug: 「teraterm-(バージョン)」（例: 5.4.0ならば "teraterm-5.4.0"）</li>
+          <li>Artifact configuration: 5.4.0 の例
+<pre>
+&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;artifact-configuration xmlns="http://signpath.io/artifact-configuration/v1"&gt;
+  &lt;zip-file&gt;
+    &lt;pe-file-set&gt;
+      &lt;include path="teraterm-5.4.0\ttermpro.exe" /&gt;
+      &lt;include path="teraterm-5.4.0\keycode.exe" /&gt;
+      &lt;include path="teraterm-5.4.0\ttpmacro.exe" /&gt;
+      &lt;for-each&gt;
+        &lt;authenticode-sign /&gt;
+      &lt;/for-each&gt;
+    &lt;/pe-file-set&gt;
+  &lt;/zip-file&gt;
+&lt;/artifact-configuration&gt;
+</pre>
+          </li>
+        </ul>
+      </li>
+      <li>
+        Trusted build systems に AppVeyor を登録しなおす。
+        <ul>
+          <li>AppVeyor API key: AppVeyor の Bearer token（cf. プロジェクト管理情報）</li>
+          <li>Artifact path: AppVeyor の artifact（ポータブル版の zip ファイル）のパス（例: 5.4.0ならば "installer\Output\teraterm-5.4.0"）</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
   <li>コミットする</li>
   <li>タグを作成し、push する
     <p>
@@ -212,9 +247,18 @@ TeraTerm Project でのリリース手順について以下に示します。
 git tag -a v5.4.0 -m "Release 5.4.0"
 git push origin v5.4.0
 </pre>
+    <p>
+      タグの push をトリガーに、AppVeyor の "github-release" プロジェクトのビルドが始まる。<br>
+      AppVeyor のビルド中に、ポータブル版の zip ファイルが SignPath によって署名される。この署名は Trusted Build System となる。
+    </p>
   </li>
   <li>インストーラを作成する
-    <p>AppVeyor の "github-release" プロジェクトを使用する。</p>
+    <ul>
+      <li>AppVeyor の "github-release" プロジェクトの artifact を、ポータブル版の zip ファイル以外すべてダウンロードする</li>
+      <li>SignPath の Signing Requests ページから、署名された実行ファイルを含むポータブル版の zip ファイルをダウンロードする</li>
+      <li>create_installer.ps1 の $API_TOKEN の値を、あなたの SignPath の API Token に書き換える</li>
+      <li>create_installer.ps1 を実行すると、署名されたインストーラが作成される。この署名は手動署名となる。</li>
+    </ul>
   </li>
   <!-- ローカルでリリースビルドする場合は、この時点で再度インストーラを作成する。コミットハッシュが変わっているため。 -->
   <li>GitHub の Releases に追加する
@@ -351,6 +395,18 @@ git checkout -b stable_5_4
             次バージョンの変更履歴のひな形を追加する。
 <pre>
 &lt;h3 id="teraterm_5.4.1"&gt;YYYY.MM.DD (Ver 5.4.1 not released yet)&lt;/h3&gt;
+</pre>
+          </li>
+          <li>
+            appveyor.yml<br>
+            SignPath の署名ポリシーを切り替えるブランチを変更する。
+<pre>
+      branches:
+        only:
+-         - main
++         - stable_5_4
+      environment:
+        SIGNPATH_SIGNING_POLICY_SLUG: release-signing
 </pre>
           </li>
           <li>コミット、push する。</li>
