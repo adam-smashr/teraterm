@@ -83,46 +83,46 @@ call ..\buildtools\svnrev\svnrev.bat
 
 devenv /%BUILD% release %TERATERMSLN%
 if ERRORLEVEL 1 goto fail
-rem devenv /%BUILD% release %TTSSHSLN%
-rem if ERRORLEVEL 1 goto fail
-rem devenv /%BUILD% release %TTPROXYSLN%
-rem if ERRORLEVEL 1 goto fail
-rem devenv /%BUILD% release %TTXKANJISLN%
-rem if ERRORLEVEL 1 goto fail
-rem devenv /%BUILD% release %TTPMENUSLN%
-rem if ERRORLEVEL 1 goto fail
-rem devenv /%BUILD% release %TTXSAMPLESLN%
-rem if ERRORLEVEL 1 goto fail
-rem devenv /%BUILD% release %CYGWINSLN%
-rem if ERRORLEVEL 1 goto fail
+devenv /%BUILD% release %TTSSHSLN%
+if ERRORLEVEL 1 goto fail
+devenv /%BUILD% release %TTPROXYSLN%
+if ERRORLEVEL 1 goto fail
+devenv /%BUILD% release %TTXKANJISLN%
+if ERRORLEVEL 1 goto fail
+devenv /%BUILD% release %TTPMENUSLN%
+if ERRORLEVEL 1 goto fail
+devenv /%BUILD% release %TTXSAMPLESLN%
+if ERRORLEVEL 1 goto fail
+devenv /%BUILD% release %CYGWINSLN%
+if ERRORLEVEL 1 goto fail
 
 rem cygterm をコンパイル
-rem pushd ..\cygwin\cygterm
-rem if "%BUILD%" == "rebuild" (
-rem     make clean
-rem     make cygterm+-x86_64-clean
-rem )
-rem make cygterm+-x86_64 -j
-rem popd
+pushd ..\cygwin\cygterm
+if "%BUILD%" == "rebuild" (
+    make clean
+    make cygterm+-x86_64-clean
+)
+make cygterm+-x86_64 -j
+popd
 
 rem msys2term
-rem if not exist c:\msys64\usr\bin\msys-2.0.dll goto msys2term_pass
-rem setlocal
-rem PATH=C:\msys64\usr\bin
-rem pushd ..\cygwin\cygterm
-rem if "%BUILD%" == "rebuild" (
-rem     make clean
-rem     make msys2term-clean
-rem )
-rem make msys2term -j
-rem endlocal
-rem popd
+if not exist c:\msys64\usr\bin\msys-2.0.dll goto msys2term_pass
+setlocal
+PATH=C:\msys64\usr\bin
+pushd ..\cygwin\cygterm
+if "%BUILD%" == "rebuild" (
+    make clean
+    make msys2term-clean
+)
+make msys2term -j
+endlocal
+popd
 :msys2term_pass
 
 rem cygterm+.tar.gz
-rem pushd ..\cygwin\cygterm
-rem make archive
-rem popd
+pushd ..\cygwin\cygterm
+make archive
+popd
 
 rem lng ファイルを作成
 call makelang.bat

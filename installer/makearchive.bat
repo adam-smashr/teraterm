@@ -16,7 +16,7 @@ goto help
 if "%release%"=="yes" SET plugins=yes
 if "%release%"=="yes" SET rebuild=rebuild
 
-rem CALL makechm.bat
+CALL makechm.bat
 CALL build.bat %rebuild%
 if ERRORLEVEL 1 goto fail
 set release_bak=%release%
@@ -40,72 +40,72 @@ mkdir %dst%_pdb
 copy /y ..\teraterm\release\*.exe %dst%
 copy /y ..\teraterm\release\*.dll %dst%
 copy /y ..\teraterm\release\*.pdb %dst%_pdb
-rem copy /y ..\ttssh2\ttxssh\Release\ttxssh.dll %dst%
-rem copy /y ..\ttssh2\ttxssh\Release\ttxssh.pdb %dst%_pdb
-rem copy /y ..\TTProxy\Release\TTXProxy.dll %dst%
-rem copy /y ..\TTProxy\Release\TTXProxy.pdb %dst%_pdb
-rem copy /y ..\TTXKanjiMenu\Release\ttxkanjimenu.dll %dst%
-rem copy /y ..\TTXKanjiMenu\Release\ttxkanjimenu.pdb %dst%_pdb
+copy /y ..\ttssh2\ttxssh\Release\ttxssh.dll %dst%
+copy /y ..\ttssh2\ttxssh\Release\ttxssh.pdb %dst%_pdb
+copy /y ..\TTProxy\Release\TTXProxy.dll %dst%
+copy /y ..\TTProxy\Release\TTXProxy.pdb %dst%_pdb
+copy /y ..\TTXKanjiMenu\Release\ttxkanjimenu.dll %dst%
+copy /y ..\TTXKanjiMenu\Release\ttxkanjimenu.pdb %dst%_pdb
 
-rem copy /y ..\cygwin\Release\cyglaunch.exe %dst%
-rem copy /y ..\cygwin\cygterm\cygterm.cfg %dst%
-rem copy /y "..\cygwin\cygterm\cygterm+.tar.gz" %dst%
-rem copy /y "..\cygwin\cygterm\cygterm+-x86_64\cygterm.exe" %dst%
+copy /y ..\cygwin\Release\cyglaunch.exe %dst%
+copy /y ..\cygwin\cygterm\cygterm.cfg %dst%
+copy /y "..\cygwin\cygterm\cygterm+.tar.gz" %dst%
+copy /y "..\cygwin\cygterm\cygterm+-x86_64\cygterm.exe" %dst%
 
-rem if not exist ..\cygwin\cygterm\msys2term\msys2term.exe goto msys2term_pass
-rem copy /y ..\cygwin\cygterm\msys2term\msys2term.exe %dst%
-rem copy /y ..\cygwin\cygterm\msys2term.cfg %dst%
+if not exist ..\cygwin\cygterm\msys2term\msys2term.exe goto msys2term_pass
+copy /y ..\cygwin\cygterm\msys2term\msys2term.exe %dst%
+copy /y ..\cygwin\cygterm\msys2term.cfg %dst%
 :msys2term_pass
 
-rem copy /y ..\ttpmenu\Release\ttpmenu.exe %dst%
-rem copy /y ..\ttpmenu\Release\ttpmenu.pdb %dst%_pdb
-rem copy /y ..\ttpmenu\readme.txt %dst%\ttmenu_readme-j.txt
+copy /y ..\ttpmenu\Release\ttpmenu.exe %dst%
+copy /y ..\ttpmenu\Release\ttpmenu.pdb %dst%_pdb
+copy /y ..\ttpmenu\readme.txt %dst%\ttmenu_readme-j.txt
 
-rem copy /y ..\TTXSamples\Release\TTXAdditionalTitle.dll %dst%
-rem copy /y ..\TTXSamples\Release\TTXAdditionalTitle.pdb %dst%_pdb
-rem copy /y ..\TTXSamples\Release\TTXAlwaysOnTop.dll %dst%
-rem copy /y ..\TTXSamples\Release\TTXAlwaysOnTop.pdb %dst%_pdb
-rem copy /y ..\TTXSamples\Release\TTXCallSysMenu.dll %dst%
-rem copy /y ..\TTXSamples\Release\TTXCallSysMenu.pdb %dst%_pdb
-rem copy /y ..\TTXSamples\Release\TTXCommandLineOpt.dll %dst%
-rem copy /y ..\TTXSamples\Release\TTXCommandLineOpt.pdb %dst%_pdb
-rem copy /y ..\TTXSamples\Release\TTXCopyIniFile.dll %dst%
-rem copy /y ..\TTXSamples\Release\TTXCopyIniFile.pdb %dst%_pdb
-rem copy /y ..\TTXSamples\Release\TTXFixedWinSize.dll %dst%
-rem copy /y ..\TTXSamples\Release\TTXFixedWinSize.pdb %dst%_pdb
-rem copy /y ..\TTXSamples\Release\TTXKcodeChange.dll %dst%
-rem copy /y ..\TTXSamples\Release\TTXKcodeChange.pdb %dst%_pdb
-rem copy /y ..\TTXSamples\Release\TTXOutputBuffering.dll %dst%
-rem copy /y ..\TTXSamples\Release\TTXOutputBuffering.pdb %dst%_pdb
-rem copy /y ..\TTXSamples\Release\TTXRecurringCommand.dll %dst%
-rem copy /y ..\TTXSamples\Release\TTXRecurringCommand.pdb %dst%_pdb
-rem copy /y ..\TTXSamples\Release\TTXResizeMenu.dll %dst%
-rem copy /y ..\TTXSamples\Release\TTXResizeMenu.pdb %dst%_pdb
-rem copy /y ..\TTXSamples\Release\TTXResizeWin.dll %dst%
-rem copy /y ..\TTXSamples\Release\TTXResizeWin.pdb %dst%_pdb
-rem copy /y ..\TTXSamples\Release\TTXShowCommandLine.dll %dst%
-rem copy /y ..\TTXSamples\Release\TTXShowCommandLine.pdb %dst%_pdb
-rem copy /y ..\TTXSamples\Release\TTXViewMode.dll %dst%
-rem copy /y ..\TTXSamples\Release\TTXViewMode.pdb %dst%_pdb
-rem copy /y ..\TTXSamples\Release\TTXtest.dll %dst%
-rem copy /y ..\TTXSamples\Release\TTXtest.pdb %dst%_pdb
-rem copy /y ..\TTXSamples\Release\TTXttyplay.dll %dst%
-rem copy /y ..\TTXSamples\Release\TTXttyplay.pdb %dst%_pdb
-rem copy /y ..\TTXSamples\Release\TTXttyrec.dll %dst%
-rem copy /y ..\TTXSamples\Release\TTXttyrec.pdb %dst%_pdb
+copy /y ..\TTXSamples\Release\TTXAdditionalTitle.dll %dst%
+copy /y ..\TTXSamples\Release\TTXAdditionalTitle.pdb %dst%_pdb
+copy /y ..\TTXSamples\Release\TTXAlwaysOnTop.dll %dst%
+copy /y ..\TTXSamples\Release\TTXAlwaysOnTop.pdb %dst%_pdb
+copy /y ..\TTXSamples\Release\TTXCallSysMenu.dll %dst%
+copy /y ..\TTXSamples\Release\TTXCallSysMenu.pdb %dst%_pdb
+copy /y ..\TTXSamples\Release\TTXCommandLineOpt.dll %dst%
+copy /y ..\TTXSamples\Release\TTXCommandLineOpt.pdb %dst%_pdb
+copy /y ..\TTXSamples\Release\TTXCopyIniFile.dll %dst%
+copy /y ..\TTXSamples\Release\TTXCopyIniFile.pdb %dst%_pdb
+copy /y ..\TTXSamples\Release\TTXFixedWinSize.dll %dst%
+copy /y ..\TTXSamples\Release\TTXFixedWinSize.pdb %dst%_pdb
+copy /y ..\TTXSamples\Release\TTXKcodeChange.dll %dst%
+copy /y ..\TTXSamples\Release\TTXKcodeChange.pdb %dst%_pdb
+copy /y ..\TTXSamples\Release\TTXOutputBuffering.dll %dst%
+copy /y ..\TTXSamples\Release\TTXOutputBuffering.pdb %dst%_pdb
+copy /y ..\TTXSamples\Release\TTXRecurringCommand.dll %dst%
+copy /y ..\TTXSamples\Release\TTXRecurringCommand.pdb %dst%_pdb
+copy /y ..\TTXSamples\Release\TTXResizeMenu.dll %dst%
+copy /y ..\TTXSamples\Release\TTXResizeMenu.pdb %dst%_pdb
+copy /y ..\TTXSamples\Release\TTXResizeWin.dll %dst%
+copy /y ..\TTXSamples\Release\TTXResizeWin.pdb %dst%_pdb
+copy /y ..\TTXSamples\Release\TTXShowCommandLine.dll %dst%
+copy /y ..\TTXSamples\Release\TTXShowCommandLine.pdb %dst%_pdb
+copy /y ..\TTXSamples\Release\TTXViewMode.dll %dst%
+copy /y ..\TTXSamples\Release\TTXViewMode.pdb %dst%_pdb
+copy /y ..\TTXSamples\Release\TTXtest.dll %dst%
+copy /y ..\TTXSamples\Release\TTXtest.pdb %dst%_pdb
+copy /y ..\TTXSamples\Release\TTXttyplay.dll %dst%
+copy /y ..\TTXSamples\Release\TTXttyplay.pdb %dst%_pdb
+copy /y ..\TTXSamples\Release\TTXttyrec.dll %dst%
+copy /y ..\TTXSamples\Release\TTXttyrec.pdb %dst%_pdb
 
 pushd %dst%
-rem ren TTXFixedWinSize.dll _TTXFixedWinSize.dll
-rem ren TTXFixedWinSize.dll _TTXFixedWinSize.dll
-rem ren TTXOutputBuffering.dll _TTXOutputBuffering.dll
-rem ren TTXResizeWin.dll _TTXResizeWin.dll
-rem ren TTXResizeWin.dll _TTXResizeWin.dll
-rem ren TTXShowCommandLine.dll _TTXShowCommandLine.dll
-rem ren TTXtest.dll _TTXtest.dll
+ren TTXFixedWinSize.dll _TTXFixedWinSize.dll
+ren TTXFixedWinSize.dll _TTXFixedWinSize.dll
+ren TTXOutputBuffering.dll _TTXOutputBuffering.dll
+ren TTXResizeWin.dll _TTXResizeWin.dll
+ren TTXResizeWin.dll _TTXResizeWin.dll
+ren TTXShowCommandLine.dll _TTXShowCommandLine.dll
+ren TTXtest.dll _TTXtest.dll
 popd
 
-rem copy /y ..\doc\ja\teratermj.chm %dst%
-rem copy /y ..\doc\en\teraterm.chm %dst%
+copy /y ..\doc\ja\teratermj.chm %dst%
+copy /y ..\doc\en\teraterm.chm %dst%
 
 copy /y release\*.* %dst%
 copy /y release\IBMKEYB.CNF %dst%\KEYBOARD.CNF

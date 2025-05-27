@@ -43,7 +43,7 @@ if (Test-Path $unsignedInstallerFilename) {
 # extract zip file
 Expand-Archive -Path $zipFilename -DestinationPath $PSScriptRoot
 
-# rewrite iss
+# replace binary path
 (Get-Content $baseIssFilename) `
     -replace 'LicenseFile=release\\license.txt', "LicenseFile=teraterm-${version}\license.txt" `
     -replace 'Source: \.\.\\teraterm\\release', "Source: teraterm-${version}" `
